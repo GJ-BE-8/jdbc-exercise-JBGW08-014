@@ -6,6 +6,7 @@ import com.nhnacademy.jdbc.student.repository.impl.StatementStudentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Random;
@@ -49,7 +50,7 @@ class StatementStudentRepositoryTest {
     @Test
     @Order(2)
     @DisplayName("findById-student1")
-    void findById() {
+    void findById() throws SQLException {
         Optional<Student> studentOptional = studentRepository.findById("student1");
         log.info("student:{}", studentOptional.get());
 
@@ -64,7 +65,7 @@ class StatementStudentRepositoryTest {
     @Test
     @Order(3)
     @DisplayName("findById-marco10000")
-    void findById_10000(){
+    void findById_10000() throws SQLException {
         Optional<Student> studentOptional = studentRepository.findById("student10000");
         Assertions.assertFalse(studentOptional.isPresent());
     }
@@ -72,7 +73,7 @@ class StatementStudentRepositoryTest {
     @Test
     @Order(4)
     @DisplayName("update : student1")
-    void update() {
+    void update() throws SQLException {
 
         Student student = new Student("student1","엔에이치엔아카데미", Student.GENDER.F,30);
         int result = studentRepository.update(student);
@@ -93,7 +94,7 @@ class StatementStudentRepositoryTest {
     @Test
     @Order(5)
     @DisplayName("delete : student1")
-    void deleteById() {
+    void deleteById() throws SQLException {
         String id="student1";
         int result = studentRepository.deleteById(id);
         Optional<Student> studentDto = studentRepository.findById(id);
