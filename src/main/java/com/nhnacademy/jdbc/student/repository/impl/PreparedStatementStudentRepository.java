@@ -14,13 +14,33 @@ public class PreparedStatementStudentRepository implements StudentRepository {
     @Override
     public int save(Student student){
         //todo#1 학생 등록
-
-        return 0;
+        String sql = "insert INTO jdbc_students (id, name, gender, age) values (?,?,?,?)";
+        try(
+            Connection connection = DbUtils.getConnection();
+            PreparedStatement preparedStatement= connection.prepareStatement(sql)) {
+            preparedStatement.setString(1,student.getId());
+            preparedStatement.setString(2,student.getName());
+            preparedStatement.setString(3, student.getGender().name());
+            preparedStatement.setInt(4,student.getAge());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Optional<Student> findById(String id){
         //todo#2 학생 조회
+        String sql = "SELECT * FROM students WHERE id = ?";
+        try(
+            Connection connection = DbUtils.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ) {
+            preparedStatement.setString(1,id);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return Optional.empty();
     }
 
