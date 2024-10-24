@@ -37,23 +37,42 @@ public class PreparedStatementStudentRepository implements StudentRepository {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ) {
             preparedStatement.setString(1,id);
-
+            try(ResultSet rs = preparedStatement.executeQuery()){
+                Student student = new Student(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        Student.GENDER.valueOf(rs.getString("gender")),
+                        rs.getInt("age")
+                );
+                return Optional.of(student);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return Optional.empty();
     }
 
     @Override
     public int update(Student student){
         //todo#3 학생 수정 , name 수정
+        String sql =  "UPDATE jdbc_students SET student_name =  ?, gender = ? ,age = ? WHERE student_id = ?";
+        try(
+            Connection connection = DbUtils.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1,student.getName());
+            preparedStatement.setString(2,student.getGender().name());
+            preparedStatement.setInt(3,student.getAge());
+            preparedStatement.setString(4, student.getId());
 
-        return 0;
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int deleteById(String id){
         //todo#4 학생 삭제
+
         return 0;
     }
 
