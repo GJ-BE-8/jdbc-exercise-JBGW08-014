@@ -52,7 +52,7 @@ class StudentRepositoryImplTest {
     @Test
     @Order(1)
     @DisplayName("insert student : student 100")
-    void save() {
+    void save() throws SQLException {
         Student newStudent = new Student("student100","학생100", Student.GENDER.M,30);
         int result = studentRepository.save(connection,newStudent);
         Assertions.assertEquals(1,result);
