@@ -19,9 +19,9 @@ class BasicConnectionPoolTest {
     static Connection connection5;
 
     @BeforeAll
-    static void setUp() {
+    static void setUp() throws SQLException {
         //todo#0 - jdbcUrl, username, password를 설정하세요
-        basicConnectionPool = new BasicConnectionPool(com.mysql.cj.jdbc.Driver.class.getName(),"","","",5);
+        basicConnectionPool = new BasicConnectionPool(com.mysql.cj.jdbc.Driver.class.getName(),"jdbc:mysql://133.186.241.167:3306/nhn_academy_14","nhn_academy_14","wvSjRM8JGjjK]ZnJ",5);
     }
 
     @AfterAll
@@ -57,7 +57,7 @@ class BasicConnectionPoolTest {
     @Test
     @Order(2)
     @DisplayName("empty connection-pool")
-    void getConnection_empty() throws InterruptedException, SQLException {
+    void getConnection_empty() throws InterruptedException{
         connection4 = basicConnectionPool.getConnection();
         connection5 = basicConnectionPool.getConnection();
         Connection connection6 = basicConnectionPool.getConnection();
