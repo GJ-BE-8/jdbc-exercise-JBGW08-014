@@ -1,6 +1,7 @@
 package com.nhnacademy.jdbc.util;
 
 import java.sql.Connection;
+import java.sql.ConnectionBuilder;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -28,10 +29,14 @@ public class BasicConnectionPool  {
     private void checkDriver(){
         //todo#1 driverClassName에 해당하는 class가 존재하는지 check합니다.
         //존재하지 않는다면 RuntimeException 예외처리.
+
     }
 
     private void initialize(){
         //todo#2 maximumPoolSize만큼 Connection 객체를 생성해서 Connection Pool에 등록합니다.
+        for(int i=0;i<maximumPoolSize;i++){
+            connections.add(new );
+        }
     }
 
     public Connection getConnection() throws InterruptedException {
