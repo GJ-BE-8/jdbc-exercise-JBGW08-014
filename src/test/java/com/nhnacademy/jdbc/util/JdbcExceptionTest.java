@@ -33,7 +33,6 @@ public class JdbcExceptionTest {
 
     @AfterAll
     static void release(){
-
         try {
             connection.close();
         } catch (SQLException e) {
