@@ -5,6 +5,7 @@ import com.nhnacademy.jdbc.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,7 +41,7 @@ class StatementUserRepositoryTest {
     @Test
     @Order(1)
     @DisplayName("find user by id and password")
-    void findByUserIdAndUserPassword() {
+    void findByUserIdAndUserPassword() throws SQLException {
         String id="user1";
         String password="nhnacademy";
 
@@ -55,7 +56,7 @@ class StatementUserRepositoryTest {
     @Test
     @Order(2)
     @DisplayName("login - sql injection")
-    void findByUserIdAndUserPAssword_sql_injection(){
+    void findByUserIdAndUserPAssword_sql_injection() throws SQLException {
         String id="user1";
         String password="' or '1'='1";
 
