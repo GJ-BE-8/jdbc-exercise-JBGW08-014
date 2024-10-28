@@ -14,7 +14,7 @@ public class ClubRepositoryImpl implements ClubRepository {
     @Override
     public Optional<Club> findByClubId(Connection connection, String clubId) {
         //todo#3 club 조회
-
+        String sql = "select * from jdbc_club where cludbId = ?";
         return Optional.empty();
     }
 
