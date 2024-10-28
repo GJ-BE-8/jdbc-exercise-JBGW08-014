@@ -71,7 +71,7 @@ public class ClubRepositoryImpl implements ClubRepository {
     @Override
     public int countByClubId(Connection connection, String clubId) {
         //todo#7 clubId에 해당하는 club의 count를 반환
-        String sql = "select count(*) from jdbc_club group by club_id";
+        String sql = "select count(*) from jdbc_club where club_id = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, clubId);
             ResultSet resultSet = preparedStatement.executeQuery();
