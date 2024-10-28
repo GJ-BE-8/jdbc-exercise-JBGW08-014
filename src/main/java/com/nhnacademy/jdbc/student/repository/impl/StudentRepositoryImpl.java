@@ -123,13 +123,45 @@ public class StudentRepositoryImpl implements StudentRepository {
     @Override
     public long totalCount(Connection connection) {
         //todo#4 totalCount 구현
-        return 0l;
+        String sql = "select count(*) from jdbc_students";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery()){
+            if(rs.next()){
+                int count =  rs.getInt("count(*)");
+                return count;
+            }else{
+                return 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Page<Student> findAll(Connection connection, int page, int pageSize) {
         //todo#5 페이징 처리 구현
-        return null;
+        int offset = (page-1)*pageSize;
+        int limit  = pageSize;
+
+        String sql = "select id, name, gender, age, created_at from jdbc_students order by id desc limit ?,?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, offset);
+            preparedStatement.setInt(2, limit);
+            ResultSet rs = preparedStatement.executeQuery();
+            List<Student> studentList = new ArrayList<>(pageSize);
+            while(rs.next()){
+                studentList.add(new Student(rs.getString("id"),rs.getString("name"),
+                        Student.GENDER.valueOf(rs.getString("gender")),rs.getInt("age"),rs.getTimestamp("created_at").toLocalDateTime()));
+            }
+            long total = 0;
+            if(!studentList.isEmpty()){
+                total = totalCount(connection);
+            }
+            return new Page<Student>(studentList,total);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
